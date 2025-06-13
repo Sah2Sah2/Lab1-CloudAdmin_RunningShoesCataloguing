@@ -12,8 +12,12 @@ This project is a full-stack web application using React, Node.js, and MySQL, al
 ├── node_modules/           # Installed frontend dependencies
 ├── public/                 # Static assets (images, favicon, etc.)
 ├── src/                    # React source files
-│   ├── components/         # React components
+│   ├── components/   
+      ├── AddShoesForm.jsx
+      └── ShoeList.jsx
+    ├── App.css  
 │   ├── App.jsx             # Main React component
+    ├── index.css
 │   └── main.jsx            # React entry point
 ├── Dockerfile              # Dockerfile for frontend container
 ├── index.html              # HTML entry point at root of client
@@ -25,18 +29,29 @@ This project is a full-stack web application using React, Node.js, and MySQL, al
 
 /server
 │
-├── node_modules/           # Installed backend dependencies
-├── index.js                # Main Express server file
-├── Dockerfile              # Dockerfile for backend container
-├── routes/                 # API route handlers (if any)
 ├── controllers/            # Controller logic 
+    └── shoesController.js
+├── db/
+    └── connection.js
+├── node_modules/           # Installed backend dependencies
+├── routes/                 # API route handlers
+    └── shoes.js
+├── index.js                # Main Express server file
+├── Dockerfile              # Dockerfile for backend container                     
 ├── models/                 # Database models 
-├── package.json            # Backend dependencies and scripts
-└── .env                    # Environment variables (not committed)
+└── package.json           # Backend dependencies and scripts                 
 
  /db
 │
 └── init.sql                # SQL scripts to initialize the database 
+
+/.env                       # Environment variables (not committed)
+
+/.gitignore                 # Git ignore rules
+
+/docker-compose.yml         # Docker compose configuration
+
+/README.md                  # Readme file 
 ```
 
 ## Setup Instructions
