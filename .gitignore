@@ -1,0 +1,42 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Node modules 
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build outputs / dist folders 
+dist/
+build/
+out/
+
+# Docker files that are generated 
+docker-compose.override.yml
+
+# IDE / Editor files 
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# Ignore local npm debug files
+*.tgz
+
+# Ignore compiled JS from TS projects 
+lib/
