@@ -1,8 +1,14 @@
+console.log('Loading shoes router');
+
 const express = require('express');
 const router = express.Router();
-const { getAllShoes, addShoe } = require('../controllers/shoesController');
+const shoesController = require('../controllers/shoesController');
 
-router.get('/', getAllShoes);
-router.post('/', addShoe);
+router.get('/test', (req, res) => {
+  res.send('Shoes route test works!');
+});
+
+router.get('/', shoesController.getAllShoes);
+router.post('/', shoesController.addShoe);
 
 module.exports = router;

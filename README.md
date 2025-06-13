@@ -16,7 +16,7 @@ This project is a full-stack web application using React, Node.js, and MySQL, al
       ├── AddShoesForm.jsx
       └── ShoeList.jsx
     ├── App.css  
-│   ├── App.jsx             # Main React component
+    ├── App.jsx             # Main React component
     ├── index.css
 │   └── main.jsx            # React entry point
 ├── Dockerfile              # Dockerfile for frontend container
