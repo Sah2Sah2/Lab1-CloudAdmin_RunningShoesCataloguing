@@ -70,7 +70,7 @@ export default function AddShoeForm({ onAdd, onBack }) {
       </button>
 
       <form className="add-shoe-form" onSubmit={handleSubmit}>
-        <h2>Add a New Running Shoe</h2>
+        <h2>Add new running shoes</h2>
 
         <label>
           Name*:
