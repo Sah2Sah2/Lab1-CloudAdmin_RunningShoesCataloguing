@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./AddShoeForm.css";
 
 export default function AddShoeForm({ onAdd }) {
   const [shoe, setShoe] = useState({
@@ -32,10 +33,7 @@ export default function AddShoeForm({ onAdd }) {
     e.preventDefault();
     if (!validate()) return;
 
-    // Call onAdd with shoe data
     onAdd(shoe);
-
-    // Reset form
     setShoe({
       name: "",
       brand: "",
@@ -45,39 +43,48 @@ export default function AddShoeForm({ onAdd }) {
       image_url: "",
       vote: 0,
     });
+    setErrors({});
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 400, margin: "auto" }}>
-      <div>
-        <label>Name*:</label>
+    <form className="add-shoe-form" onSubmit={handleSubmit}>
+      <h2>Add a New Running Shoe</h2>
+
+      <label>
+        Name*:
         <input name="name" value={shoe.name} onChange={handleChange} />
-        {errors.name && <div style={{ color: "red" }}>{errors.name}</div>}
-      </div>
-      <div>
-        <label>Brand*:</label>
+        {errors.name && <span className="error">{errors.name}</span>}
+      </label>
+
+      <label>
+        Brand*:
         <input name="brand" value={shoe.brand} onChange={handleChange} />
-        {errors.brand && <div style={{ color: "red" }}>{errors.brand}</div>}
-      </div>
-      <div>
-        <label>Model*:</label>
+        {errors.brand && <span className="error">{errors.brand}</span>}
+      </label>
+
+      <label>
+        Model*:
         <input name="model" value={shoe.model} onChange={handleChange} />
-        {errors.model && <div style={{ color: "red" }}>{errors.model}</div>}
-      </div>
-      <div>
-        <label>First Use:</label>
+        {errors.model && <span className="error">{errors.model}</span>}
+      </label>
+
+      <label>
+        First Use:
         <input type="date" name="first_use" value={shoe.first_use} onChange={handleChange} />
-      </div>
-      <div>
-        <label>Races Used:</label>
+      </label>
+
+      <label>
+        Races Used:
         <input type="number" name="races_used" value={shoe.races_used} onChange={handleChange} />
-      </div>
-      <div>
-        <label>Image URL:</label>
+      </label>
+
+      <label>
+        Image URL:
         <input name="image_url" value={shoe.image_url} onChange={handleChange} />
-      </div>
-      <div>
-        <label>Vote (0-10):</label>
+      </label>
+
+      <label>
+        Vote (0-10):
         <input
           type="number"
           name="vote"
@@ -86,8 +93,9 @@ export default function AddShoeForm({ onAdd }) {
           value={shoe.vote}
           onChange={handleChange}
         />
-        {errors.vote && <div style={{ color: "red" }}>{errors.vote}</div>}
-      </div>
+        {errors.vote && <span className="error">{errors.vote}</span>}
+      </label>
+
       <button type="submit">Add Shoe</button>
     </form>
   );

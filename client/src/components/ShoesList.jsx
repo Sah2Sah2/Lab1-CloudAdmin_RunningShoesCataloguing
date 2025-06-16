@@ -1,19 +1,48 @@
+import { useState } from "react";
+import "./ShoesList.css";
+
 export default function ShoesList({ shoes }) {
   if (!shoes.length) return <p>No running shoes added yet.</p>;
 
   return (
-    <div style={{ maxWidth: 600, margin: "auto" }}>
+    <div className="shoe-list">
       {shoes.map((shoe) => (
-        <div key={shoe.id} style={{ border: "1px solid #ddd", marginBottom: 10, padding: 10 }}>
+        <ShoeCard key={shoe.id} shoe={shoe} />
+      ))}
+    </div>
+  );
+}
+
+function ShoeCard({ shoe }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <div className="shoe-card">
+      <div className="shoe-header">
+        <div className="shoe-name-brand">
           <h3>{shoe.name}</h3>
-          <p><strong>Brand:</strong> {shoe.brand}</p>
+          <p className="shoe-brand">{shoe.brand}</p>
+        </div>
+        <button className="toggle-btn" onClick={() => setIsExpanded(!isExpanded)}>
+          {isExpanded ? "Hide Details ▲" : "Show Details ▼"}
+        </button>
+      </div>
+
+      {isExpanded && (
+        <div className="shoe-details">
           <p><strong>Model:</strong> {shoe.model}</p>
           <p><strong>First Use:</strong> {shoe.first_use}</p>
           <p><strong>Races Used:</strong> {shoe.races_used}</p>
           <p><strong>Vote:</strong> {shoe.vote}/10</p>
-          {shoe.image_url && <img src={shoe.image_url} alt={shoe.name} style={{ maxWidth: "100%" }} />}
+          {shoe.image_url && (
+            <img
+              src={shoe.image_url}
+              alt={shoe.name}
+              className="shoe-image"
+            />
+          )}
         </div>
-      ))}
+      )}
     </div>
   );
 }

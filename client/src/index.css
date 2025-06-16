@@ -1,68 +1,149 @@
 :root {
+  /* Pastel colors */
+  --color-pink: #f7c6c7;
+  --color-light-blue: #a7c7e7;
+  --color-yellow: #f7e9a0;
+  --color-green: #a6d8b8;
+
+  --color-bg-dark: #2b2b3d;
+  --color-bg-light: #fef9f7;
+  --color-text-dark: #eaeaea;
+  --color-text-light: #3a3a3a;
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
+  color: var(--color-text-dark);
+  background-color: var(--color-bg-dark);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-width: 320px;
   min-height: 100vh;
+  padding: 2rem;
+  background: inherit;
+  color: inherit;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 3.2rem;
   line-height: 1.1;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.02em;
+  user-select: none;
+  /* Use pastel pink */
+  color: var(--color-pink);
+}
+
+a {
+  font-weight: 600;
+  /* Pastel light blue */
+  color: var(--color-light-blue);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+a:hover,
+a:focus-visible {
+  /* Pastel green */
+  color: var(--color-green);
+  outline: none;
+  text-decoration: underline;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  padding: 0.7em 1.5em;
+  font-size: 1.1rem;
+  font-weight: 600;
   font-family: inherit;
-  background-color: #1a1a1a;
+  /* Pastel yellow background */
+  background-color: var(--color-yellow);
+  color: var(--color-bg-dark);
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 3px 8px rgba(247, 233, 160, 0.5);
+  user-select: none;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--color-green);
+  box-shadow: 0 6px 15px rgba(166, 216, 184, 0.8);
+  background-color: var(--color-green);
+  color: var(--color-bg-light);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 3px solid var(--color-pink);
+  outline-offset: 3px;
+  box-shadow: 0 0 10px var(--color-pink);
+  background-color: var(--color-green);
+  color: var(--color-bg-light);
+}
+
+.app-container {
+  max-width: 640px;
+  width: 100%;
+  background-color: rgba(58, 58, 79, 0.75);
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  color: var(--color-text-dark);
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--color-text-light);
+    background-color: var(--color-bg-light);
   }
-  a:hover {
-    color: #747bff;
+  body {
+    background: inherit;
+    color: inherit;
+  }
+  .app-container {
+    background-color: rgba(255, 250, 243, 0.85);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    color: var(--color-text-light);
+  }
+  h1 {
+    color: var(--color-pink);
+  }
+  a:hover,
+  a:focus-visible {
+    color: var(--color-green);
+  }
+  a {
+    color: var(--color-light-blue);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--color-yellow);
+    color: var(--color-bg-dark);
+    box-shadow: 0 2px 6px rgba(247, 233, 160, 0.4);
+  }
+  button:hover {
+    background-color: var(--color-green);
+    border-color: var(--color-green);
+    color: var(--color-bg-light);
+    box-shadow: 0 6px 15px rgba(166, 216, 184, 0.8);
+  }
+  button:focus,
+  button:focus-visible {
+    outline-color: var(--color-pink);
+    box-shadow: 0 0 10px var(--color-pink);
+    background-color: var(--color-green);
+    color: var(--color-bg-light);
   }
 }
