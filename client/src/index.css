@@ -44,13 +44,11 @@ h1 {
   text-align: center;
   letter-spacing: 0.02em;
   user-select: none;
-  /* Use pastel pink */
   color: var(--color-pink);
 }
 
 a {
   font-weight: 600;
-  /* Pastel light blue */
   color: var(--color-light-blue);
   text-decoration: none;
   transition: color 0.3s ease;

@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import AddShoeForm from "./components/AddShoeForm";
 import ShoesList from "./components/ShoesList";
+import HomePage from "./components/HomePage";
 
 export default function App() {
+  const [page, setPage] = useState("home");
   const [shoes, setShoes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const API_URL = import.meta.env.VITE_API_URL || "";
 
   useEffect(() => {
+    if (page !== "view") return; // fetch shoes only when on "view" page
+
     async function fetchShoes() {
       setLoading(true);
       setError(null);
@@ -27,10 +31,9 @@ export default function App() {
     }
 
     fetchShoes();
-  }, [API_URL]);
+  }, [API_URL, page]);
 
   const addShoe = async (newShoe) => {
-  
     if (!newShoe.name || !newShoe.brand) {
       alert("Please provide at least a name and a brand for the shoe.");
       return;
@@ -61,6 +64,7 @@ export default function App() {
       if (createdShoe) {
         setShoes((prev) => [...prev, createdShoe]);
       }
+      setPage("view");
     } catch (err) {
       console.error("Failed to add shoe:", err);
       alert("Failed to add shoe. Please check the console for details.");
@@ -71,15 +75,41 @@ export default function App() {
     <div className="app-container">
       <h1>Running Shoes Tracker</h1>
 
-      {loading && <p>Loading shoes...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {page === "view" && (
+        <button
+          className="btn-home-icon"
+          onClick={() => setPage("home")}
+          aria-label="Back to Home"
+          style={{ position: "absolute", top: 10, right: 10 }}
+        >
+          {/* SVG home icon */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 24 24"
+          >
+            <path d="M3 9L12 2l9 7v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-4H9v4a2 2 0 0 1-2 2H3z" />
+          </svg>
+        </button>
+      )}
 
-      {!loading && !error && (
+      {page === "home" && <HomePage onSelect={setPage} />}
+
+      {page === "view" && (
         <>
-          <AddShoeForm onAdd={addShoe} />
-          <ShoesList shoes={shoes} />
+          {loading && <p>Loading shoes...</p>}
+          {error && <p style={{ color: "red" }}>{error}</p>}
+          {!loading && !error && <ShoesList shoes={shoes} />}
         </>
       )}
+
+      {page === "add" && <AddShoeForm onAdd={addShoe} onBack={() => setPage("home")} />}
     </div>
   );
 }

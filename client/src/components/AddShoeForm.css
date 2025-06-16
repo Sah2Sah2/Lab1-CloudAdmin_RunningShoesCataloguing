@@ -64,3 +64,47 @@
 .add-shoe-form button:hover {
   background-color: #a1c3ce;
 }
+
+.add-shoe-form-wrapper {
+  position: relative;
+  padding-top: 3rem; 
+}
+
+.btn-home-icon {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background-color: #b4d4dc;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  box-shadow: none !important;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-weight: bold;
+  z-index: 1000;
+  outline: none !important;
+}
+
+.btn-home-icon:hover {
+  background-color: #a1c3ce;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn-home-icon:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -webkit-outline: none !important;
+}
+
+.btn-home-icon svg {
+  stroke: #333;
+  width: 24px;
+  height: 24px;
+}
