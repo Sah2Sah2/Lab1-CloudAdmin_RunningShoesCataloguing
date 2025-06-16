@@ -4,52 +4,53 @@ import ShoesList from "./components/ShoesList";
 
 export default function App() {
   const [shoes, setShoes] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL || "";
 
- useEffect(() => {
-  fetch("/api/shoes")
-    .then(async (res) => {
-      if (!res.ok) throw new Error(`Error fetching shoes: ${res.status}`);
-      const text = await res.text();
-      return text ? JSON.parse(text) : []; // handle empty response
-    })
-    .then((data) => setShoes(data))
-    .catch((err) => {
-      console.error(err);
-    });
-}, []);
+  useEffect(() => {
+    fetch(`${API_URL}/api/shoes`)
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`Error fetching shoes: ${res.status}`);
+        const text = await res.text();
+        return text ? JSON.parse(text) : []; // handle empty response
+      })
+      .then((data) => setShoes(data))
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [API_URL]);
 
   const addShoe = (newShoe) => {
-  const shoeToSend = {
-    name: newShoe.name,
-    brand: newShoe.brand,
-    model: newShoe.model,
-    first_use: newShoe.first_use,
-    races_used: newShoe.races_used,
-    image: newShoe.image_url,
-    rating: newShoe.vote,
-  };
+    const shoeToSend = {
+      name: newShoe.name,
+      brand: newShoe.brand,
+      model: newShoe.model,
+      first_use: newShoe.first_use,
+      races_used: newShoe.races_used,
+      image_url: newShoe.image_url,  
+      vote: newShoe.vote,            
+    };
 
-  fetch("/api/shoes", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(shoeToSend),
-  })
-    .then(async (res) => {
-      if (!res.ok) {
+    fetch(`${API_URL}/api/shoes`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(shoeToSend),
+    })
+      .then(async (res) => {
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`Error ${res.status}: ${text || "No response body"}`);
+        }
         const text = await res.text();
-        throw new Error(`Error ${res.status}: ${text || "No response body"}`);
-      }
-      const text = await res.text();
-      return text ? JSON.parse(text) : null; // handle empty response
-    })
-    .then((createdShoe) => {
-      if (createdShoe) setShoes((prev) => [...prev, createdShoe]);
-    })
-    .catch((err) => {
-      console.error("Failed to add shoe:", err);
-      alert("Failed to add shoe, check console for details.");
-    });
-};
+        return text ? JSON.parse(text) : null; // handle empty response
+      })
+      .then((createdShoe) => {
+        if (createdShoe) setShoes((prev) => [...prev, createdShoe]);
+      })
+      .catch((err) => {
+        console.error("Failed to add shoe:", err);
+        alert("Failed to add shoe, check console for details.");
+      });
+  };
 
   return (
     <div>
