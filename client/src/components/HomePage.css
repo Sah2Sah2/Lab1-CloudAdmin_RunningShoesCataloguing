@@ -1,40 +1,44 @@
-
 .homepage-container {
   max-width: 600px;
   margin: 3rem auto;
   text-align: center;
-  background-color: #fff8f4;
-  padding: 2rem 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #444;
 }
 
 .homepage-container h2 {
+  color: white;  
+  font-style: italic;
   margin-bottom: 2rem;
-  font-size: 2rem;
+  font-size: 1rem;
 }
 
 .homepage-buttons {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 2rem; 
 }
 
 .homepage-buttons button {
-  background-color: #f9f9fb;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 0.8rem 1.8rem;
+  background-color: #b4d4dc;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.5rem;
   font-size: 1.1rem;
-  color: #444;
+  color: #333;
   cursor: pointer;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .homepage-buttons button:hover {
-  background-color: #fff4f7;
-  border-color: #d3a6bf;
-  color: #a43f69;
+  background-color: #a1c3ce;
 }
