@@ -96,6 +96,8 @@ SHOES LIST CSS
   padding: 1rem;
   border-radius: 10px;
   border: 1px solid #f0e4f2;
+  position: relative; 
+  padding-bottom: 3rem; 
 }
 
 .shoe-details p {
@@ -108,3 +110,30 @@ SHOES LIST CSS
   border-radius: 8px;
   border: 1px solid #ddd;
 }
+
+.edit-btn {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: #d6b3e3; 
+  color: #333;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(214, 179, 227, 0.4);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-btn:hover {
+  background-color: #c49fd4;
+  box-shadow: 0 6px 12px rgba(196, 159, 212, 0.7);
+}
+
+.edit-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(196, 159, 212, 0.6);
+}
+

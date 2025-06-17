@@ -71,19 +71,47 @@ export default function App() {
     }
   };
 
-const deleteShoe = async (id) => {
-  try {
-    const res = await fetch(`${API_URL}/api/shoes/${id}`, { method: "DELETE" });
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Error deleting shoe: ${text || res.status}`);
+  const deleteShoe = async (id) => {
+    try {
+      const res = await fetch(`${API_URL}/api/shoes/${id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(`Error deleting shoe: ${text || res.status}`);
+      }
+      setShoes((prev) => prev.filter((shoe) => shoe.id !== id));
+    } catch (err) {
+      console.error(err);
+      throw err;
     }
-    setShoes((prev) => prev.filter((shoe) => shoe.id !== id));
-  } catch (err) {
-    console.error(err);
-    throw err; 
-  }
-};
+  };
+
+  const editShoe = async (id, updatedShoe) => {
+    try {
+      if (!updatedShoe.name || !updatedShoe.brand) {
+        throw new Error("Name and brand are required");
+      }
+
+      const response = await fetch(`${API_URL}/api/shoes/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedShoe),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error updating shoe: ${JSON.stringify(errorData)}`);
+      }
+
+      const updated = await response.json();
+
+      setShoes((prevShoes) =>
+        prevShoes.map((shoe) => (shoe.id === id ? updated : shoe))
+      );
+    } catch (error) {
+      console.error("Failed to update shoe:", error);
+      alert("Failed to update shoe. Please check the console.");
+    }
+  };
 
   return (
     <div className="app-container">
@@ -120,7 +148,7 @@ const deleteShoe = async (id) => {
           {loading && <p>Loading shoes...</p>}
           {error && <p style={{ color: "red" }}>{error}</p>}
           {!loading && !error && (
-            <ShoesList shoes={shoes} onDelete={deleteShoe} />
+            <ShoesList shoes={shoes} onDelete={deleteShoe} onEdit={editShoe} />
           )}
         </>
       )}
