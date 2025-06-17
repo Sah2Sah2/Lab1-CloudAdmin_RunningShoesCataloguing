@@ -1,6 +1,6 @@
 # ReactDockerMySql
 
-This project is a full-stack web application using React, Node.js, and MySQL, all running in Docker containers.  
+This web application allows users to add and view a list of running shoes, including details like brand, model, and distance. It consists of a React (React.js + Vite) frontend for interacting with the app, a Node.js backend API for handling requests, and a MySQL database for storing the data. All parts run in separate Docker containers. 
 
 ---
 
@@ -200,3 +200,12 @@ docker-compose up --build
 - React app will be available at: http://localhost:3000
 - Backend API will run on: http://localhost:5000
 - MySQL port exposed at 3306 for database tools
+
+## Technical Choices
+
+- **Frontend**: Built with React and Vite for fast development and hot module reloading;
+- **Backend**: Developed using Node.js and Express for handling RESTful API routes;
+- **Database**: MySQL was chosen for structured relational data storage;
+- **Containerization**: Docker was used to ensure consistent environments for all services, and Docker Compose was used to simplify orchestration;
+- **Communication**: The backend connects to the MySQL container using internal Docker networking, and the frontend communicates with the API server via HTTP;
+- **Build tools**: Vite (React) and NGINX (for static frontend hosting) were chosen for fast build times and production-ready delivery.
