@@ -1,6 +1,12 @@
 import { useState } from "react";
 import "./ShoesList.css";
 
+function formatDate(dateString) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  return date.toLocaleDateString("sv-SE");
+}
+
 export default function ShoesList({ shoes }) {
   if (!shoes.length) return <p>No running shoes added yet.</p>;
 
@@ -31,7 +37,7 @@ function ShoeCard({ shoe }) {
       {isExpanded && (
         <div className="shoe-details">
           <p><strong>Model:</strong> {shoe.model}</p>
-          <p><strong>First Use:</strong> {shoe.first_use}</p>
+          <p><strong>First Use:</strong> {formatDate(shoe.first_use)}</p>
           <p><strong>Races Used:</strong> {shoe.races_used}</p>
           <p><strong>Vote:</strong> {shoe.vote}/10</p>
           {shoe.image_url && (
