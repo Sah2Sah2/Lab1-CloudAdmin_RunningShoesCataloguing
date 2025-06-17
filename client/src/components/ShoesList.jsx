@@ -7,20 +7,34 @@ function formatDate(dateString) {
   return date.toLocaleDateString("sv-SE");
 }
 
-export default function ShoesList({ shoes }) {
+export default function ShoesList({ shoes, onDelete }) {
   if (!shoes.length) return <p>No running shoes added yet.</p>;
 
   return (
     <div className="shoe-list">
       {shoes.map((shoe) => (
-        <ShoeCard key={shoe.id} shoe={shoe} />
+        <ShoeCard key={shoe.id} shoe={shoe} onDelete={onDelete} />
       ))}
     </div>
   );
 }
 
-function ShoeCard({ shoe }) {
+function ShoeCard({ shoe, onDelete }) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  async function handleDelete() {
+    if (!window.confirm("Are you sure you want to delete this shoe?")) return;
+
+    setIsDeleting(true);
+    try {
+      await onDelete(shoe.id);
+    } catch (error) {
+      alert("Failed to delete shoe. Please try again.");
+    } finally {
+      setIsDeleting(false);
+    }
+  }
 
   return (
     <div className="shoe-card">
@@ -29,9 +43,19 @@ function ShoeCard({ shoe }) {
           <h3>{shoe.name}</h3>
           <p className="shoe-brand">{shoe.brand}</p>
         </div>
-        <button className="toggle-btn" onClick={() => setIsExpanded(!isExpanded)}>
-          {isExpanded ? "Hide Details ▲" : "Show Details ▼"}
-        </button>
+
+        <div className="button-group">
+          <button className="toggle-btn" onClick={() => setIsExpanded(!isExpanded)}>
+            {isExpanded ? "Hide Details ▲" : "Show Details ▼"}
+          </button>
+          <button
+            className="delete-btn"
+            onClick={handleDelete}
+            disabled={isDeleting}
+          >
+            {isDeleting ? "Deleting..." : "Delete"}
+          </button>
+        </div>
       </div>
 
       {isExpanded && (
@@ -52,3 +76,4 @@ function ShoeCard({ shoe }) {
     </div>
   );
 }
+

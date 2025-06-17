@@ -71,6 +71,20 @@ export default function App() {
     }
   };
 
+const deleteShoe = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/api/shoes/${id}`, { method: "DELETE" });
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Error deleting shoe: ${text || res.status}`);
+    }
+    setShoes((prev) => prev.filter((shoe) => shoe.id !== id));
+  } catch (err) {
+    console.error(err);
+    throw err; 
+  }
+};
+
   return (
     <div className="app-container">
       <h1>Running shoes tracker</h1>
@@ -105,11 +119,15 @@ export default function App() {
         <>
           {loading && <p>Loading shoes...</p>}
           {error && <p style={{ color: "red" }}>{error}</p>}
-          {!loading && !error && <ShoesList shoes={shoes} />}
+          {!loading && !error && (
+            <ShoesList shoes={shoes} onDelete={deleteShoe} />
+          )}
         </>
       )}
 
-      {page === "add" && <AddShoeForm onAdd={addShoe} onBack={() => setPage("home")} />}
+      {page === "add" && (
+        <AddShoeForm onAdd={addShoe} onBack={() => setPage("home")} />
+      )}
     </div>
   );
 }

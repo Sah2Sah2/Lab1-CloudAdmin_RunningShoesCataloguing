@@ -27,7 +27,6 @@ SHOES LIST CSS
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
   user-select: none;
 }
 
@@ -46,6 +45,11 @@ SHOES LIST CSS
   margin: 0.2rem 0 0;
   color: #666;
   font-weight: 500;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px; 
 }
 
 .toggle-btn {
