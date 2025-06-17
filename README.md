@@ -226,10 +226,48 @@ DB_NAME=dbname
 > ⚠️ **Note:** Replace these values with your own credentials. Do **not** commit your actual `.env` file to the repository.
 
 ### 10. Run all containers
-Run the following command in your project root to build and start all services:
+To run the entire application (frontend, backend, and MySQL database) in Docker containers with proper networking, follow these steps:
+
+1. Ensure your `.env` file contains the correct database credentials matching those in `docker-compose.yml`.
+
+2. From the root directory of the project (where `docker-compose.yml` is located), run:
+
 ```bash
 docker-compose up --build
 ```
+
+3. This will:
+- Build and start all services (database, backend, and frontend);
+- Set up an internal Docker network, allowing the backend to connect to the MySQL container using the hostname `mysql-db`;
+- Expose the frontend on http://localhost:3000 and the backend API on http://localhost:5000.
+
+4. You can now interact with the app and test API routes like:
+
+GET
+```bash
+curl http://localhost:5000/api/shoes
+```
+POST 
+```bash
+curl -X POST http://localhost:5000/api/shoes \
+  -H "Content-Type: application/json" \
+  -d '{ "key1": "value1", "key2": "value2" }'
+```
+
+UPDATE by ID
+```bash
+curl -X PUT http://localhost:5000/api/shoes/{id} \
+  -H "Content-Type: application/json" \
+  -d '{ "key1": "newValue1", "key2": "newValue2" }'
+```
+
+DELETE by ID 
+```bash
+curl -X DELETE http://localhost:5000/api/shoes/{id}
+```
+
+> ⚠️ **Note:** Running the backend server locally without Docker will result in a connection error because the hostname `mysql-db` is only resolvable inside the Docker network.
+> If you want to run the backend locally, replace the hostname `mysql-db` in your environment variables with `localhost` or the appropriate address of your MySQL server.
 
 - React app will be available at: http://localhost:3000
 - Backend API will run on: http://localhost:5000
