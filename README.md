@@ -1,4 +1,5 @@
-# Running shoes tracker with React + Vite, Docker, and MySql
+# Running shoes tracker 
+## with React + Vite, Docker, and MySql
 
 ![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
 ![Vite](https://img.shields.io/badge/Bundler-Vite-646CFF?logo=vite)
@@ -199,6 +200,23 @@ services:
 volumes:
   db_data:
 ```
+## Example `.env` file
+
+```env
+# MySQL environment variables for docker-compose
+MYSQL_ROOT_PASSWORD=rootpassword
+MYSQL_DATABASE=dbname
+MYSQL_USER=user
+MYSQL_PASSWORD=dbpassword
+
+# Server environment variables
+DB_HOST=mysql-db
+DB_USER=user
+DB_PASSWORD=password
+DB_NAME=dbname
+```
+> ⚠️ **Note:** Replace these values with your own credentials. Do **not** commit your actual `.env` file to the repository.
+
 ### 10. Run all containers
 Run the following command in your project root to build and start all services:
 ```bash
