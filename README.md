@@ -9,49 +9,52 @@ This project is a full-stack web application using React, Node.js, and MySQL, al
 ```bash
 /client
 │
-├── node_modules/           # Installed frontend dependencies
-├── public/                 # Static assets (images, favicon, etc.)
-├── src/                    # React source files
+├── node_modules/                 # Installed frontend dependencies
+├── public/                       # Static assets (images, favicon, etc.)
+├── src/                          # React source files
 │   ├── components/   
-      ├── AddShoesForm.jsx
+      ├── AddShoesForm.css        
+      ├── AddShoeForm.jsx
+      ├── HomePage.css
+      ├── HomePage.jsx
+      ├── ShoesList.css
       └── ShoeList.jsx
     ├── App.css  
-    ├── App.jsx             # Main React component
+    ├── App.jsx                   # Main React component
     ├── index.css
-│   └── main.jsx            # React entry point
-├── Dockerfile              # Dockerfile for frontend container
-├── index.html              # HTML entry point at root of client
-├── eslint.config.js        # ESLint configuration
-├── package-lock.json       # Exact dependency tree (auto-generated)
-├── package.json            # React project dependencies and scripts
-├── vite.config.js          # Vite configuration
-└── .gitignore              # Git ignore rules
+│   └── main.jsx                  # React entry point
+├── .env                          # Enviroment variables (not committed)
+├── .gitignore                    # Git ignore rules
+├── Dockerfile                    # Dockerfile for frontend container
+├── eslint.config.js              # ESLint configuration
+├── index.html                    # HTML entry point at root of client
+├── package-lock.json             # Exact dependency tree (auto-generated)
+├── package.json                  # React project dependencies and scripts
+└── vite.config.js                # Vite configuration
 
 /server
 │
-├── controllers/            # Controller logic 
+├── controllers/                  # Controller logic 
     └── shoesController.js
 ├── db/
     └── connection.js
-├── node_modules/           # Installed backend dependencies
-├── routes/                 # API route handlers
+├── models/                       # Database models    
+    └── shoesModel.js
+├── node_modules/                 # Installed backend dependencies
+├── routes/                       # API route handlers
     └── shoes.js
-├── index.js                # Main Express server file
-├── Dockerfile              # Dockerfile for backend container                     
-├── models/                 # Database models 
-└── package.json           # Backend dependencies and scripts                 
+├── Dockerfile                    # Dockerfile for backend container       
+├── index.js                      # Main Express server file    
+├── package-lock.json             # Exact dependency tree (auto-generated)         
+└── package.json                  # Backend dependencies and scripts                 
 
- /db
-│
-└── init.sql                # SQL scripts to initialize the database 
+/.env                             # Environment variables (not committed)
 
-/.env                       # Environment variables (not committed)
+/.gitignore                       # Git ignore rules
 
-/.gitignore                 # Git ignore rules
+/docker-compose.yml               # Docker compose configuration
 
-/docker-compose.yml         # Docker compose configuration
-
-/README.md                  # Readme file 
+/README.md                        # Readme file 
 ```
 
 ## Setup Instructions
@@ -147,18 +150,16 @@ CMD ["nginx", "-g", "daemon off;"]
 
 ### 9. Create a `docker-compose.yml` file in the project root
 ```yaml
-version: "3.9"
-
 services:
   db:
     image: mysql:8.0
     container_name: mysql-db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
@@ -171,10 +172,10 @@ services:
     ports:
       - "5000:5000"
     environment:
-      DB_HOST: db
-      DB_USER: user
-      DB_PASSWORD: password
-      DB_NAME: mydatabase
+      DB_HOST: mysql-db
+      DB_USER: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: ${MYSQL_DATABASE}
     depends_on:
       - db
 
