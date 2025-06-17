@@ -273,6 +273,15 @@ curl -X DELETE http://localhost:5000/api/shoes/{id}
 - Backend API will run on: http://localhost:5000
 - MySQL port exposed at 3306 for database tools
 
+## API Endpoints
+
+| Method | Endpoint          | Description                   | Request Body Example                                            |
+|--------|-------------------|-------------------------------|-----------------------------------------------------------------|
+| GET    | `/api/shoes`      | Get list of all shoes         | N/A                                                             |
+| POST   | `/api/shoes`      | Add a new shoe                | `{ "brand": "Nike", "model": "Air Max", "distance": 100 }`      |
+| PUT    | `/api/shoes/{id}` | Update shoe info by ID        | `{ "brand": "Adidas", "model": "Ultraboost", "distance": 150 }` |
+| DELETE | `/api/shoes/{id}` | Delete shoe by ID             | N/A                                                             |
+
 ## Usage 
 
 After running the application (either locally or via Docker), open your web browser and navigate to: http://localhost:3000
