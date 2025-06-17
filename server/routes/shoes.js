@@ -10,5 +10,7 @@ router.get('/test', (req, res) => {
 
 router.get('/', shoesController.getAllShoes);
 router.post('/', shoesController.addShoe);
+router.put('/:id', shoesController.updateShoe);
+router.delete('/:id', shoesController.deleteShoe);
 
 module.exports = router;

@@ -22,7 +22,6 @@ app.get('/api/shoes/inline', (req, res) => {
   res.send('Inline shoes route works!');
 });
 
-
 app.get('/', (req, res) => {
   res.send('Hello from backend!');
 });

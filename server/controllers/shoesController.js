@@ -1,5 +1,6 @@
 const shoesModel = require('../models/shoesModel');
 
+// GET all shoes
 exports.getAllShoes = (req, res) => {
   shoesModel.getAllShoes((err, results) => {
     if (err) {
@@ -10,6 +11,7 @@ exports.getAllShoes = (req, res) => {
   });
 };
 
+// ADD shoes
 exports.addShoe = (req, res) => {
   const shoe = req.body;
 
@@ -26,3 +28,44 @@ exports.addShoe = (req, res) => {
     res.json({ id: result.insertId, ...shoe });
   });
 };
+
+// UPDATE shoe by id
+exports.updateShoe = (req, res) => {
+  const { id } = req.params;
+  const updatedShoe = req.body;
+
+  if (!updatedShoe.name || !updatedShoe.brand || !updatedShoe.model) {
+    return res.status(400).json({ error: 'Name, brand and model are required' });
+  }
+
+  shoesModel.updateShoe(id, updatedShoe, (err, result) => {
+    if (err) {
+      console.error('Error updating shoe:', err);
+      return res.status(500).json({ error: 'Failed to update shoe' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Shoe not found' });
+    }
+
+    res.json({ id: +id, ...updatedShoe });
+  });
+};
+
+// DELETE shoe by id
+exports.deleteShoe = (req, res) => {
+  const { id } = req.params;
+
+  shoesModel.deleteShoe(id, (err, result) => {
+    if (err) {
+      console.error('Error deleting shoe:', err);
+      return res.status(500).json({ error: 'Failed to delete shoe' });
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Shoe not found' });
+    }
+
+    res.json({ message: 'Shoe deleted', id: +id });
+  });
+};
+
+
