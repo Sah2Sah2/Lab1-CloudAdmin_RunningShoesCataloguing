@@ -1,4 +1,12 @@
-# ReactDockerMySql
+# Running shoes tracker with React + Vite, Docker, and MySql
+
+![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
+![Vite](https://img.shields.io/badge/Bundler-Vite-646CFF?logo=vite)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-green?logo=node.js)
+![Express](https://img.shields.io/badge/API-Express-black?logo=express)
+![MySQL](https://img.shields.io/badge/Database-MySQL-blue?logo=mysql)
+![Docker](https://img.shields.io/badge/Container-Docker-2496ED?logo=docker)
+![Docker Compose](https://img.shields.io/badge/Orchestration-Docker--Compose-2496ED?logo=docker)
 
 This web application allows users to add and view a list of running shoes, including details like brand, model, and distance. It consists of a React (React.js + Vite) frontend for interacting with the app, a Node.js backend API for handling requests, and a MySQL database for storing the data. All parts run in separate Docker containers. 
 
