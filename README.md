@@ -1,5 +1,5 @@
 # Running shoes tracker 
-## with React + Vite, Docker, and MySql
+### with React + Vite, Docker, and MySql
 
 ![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
 ![Vite](https://img.shields.io/badge/Bundler-Vite-646CFF?logo=vite)
@@ -13,7 +13,17 @@ This web application allows users to add and view a list of running shoes, inclu
 
 ---
 
-## File strucutre overview
+## Prerequisites
+
+Before you begin, make sure you have the following installed and properly configured on your machine:
+
+- [Node.js](https://nodejs.org/) (v16 or newer)
+- npm (comes bundled with Node.js)
+- [Docker](https://www.docker.com/get-started) and Docker Compose installed and running
+- [Visual Studio Code](https://code.visualstudio.com/) (optional, but recommended for development)
+
+
+## File structure overview
 
 ```bash
 /client
@@ -32,7 +42,7 @@ This web application allows users to add and view a list of running shoes, inclu
     ├── App.jsx                   # Main React component
     ├── index.css
 │   └── main.jsx                  # React entry point
-├── .env                          # Enviroment variables (not committed)
+├── .env                          # Environment variables (not committed)
 ├── .gitignore                    # Git ignore rules
 ├── Dockerfile                    # Dockerfile for frontend container
 ├── eslint.config.js              # ESLint configuration
@@ -114,9 +124,7 @@ npm install express cors dotenv mysql2
 ```
 
 ### 6. Create an Express server
-Create an index.js file inside the server folder and set up your basic server and database connection
-
-...
+Create an index.js file inside the server folder and set up your basic server and database connection.
 
 ### 7. Run the backend server locally
 
@@ -226,6 +234,17 @@ docker-compose up --build
 - React app will be available at: http://localhost:3000
 - Backend API will run on: http://localhost:5000
 - MySQL port exposed at 3306 for database tools
+
+## Usage 
+
+After running the application (either locally or via Docker), open your web browser and navigate to: http://localhost:3000
+
+On the app, you can:
+- Add new running shoes by entering details like brand, model, and distance;
+- View the list of all running shoes you've added;
+- Track your running shoe mileage conveniently from the interface.
+
+The frontend communicates with the backend API to save and fetch shoe data, ensuring your running shoes list is always up to date.
 
 ## Technical Choices
 
