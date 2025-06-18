@@ -28,6 +28,8 @@ const values = [
 exports.updateShoe = (id, shoe, callback) => {
   const { name, brand, model, first_use, races_used, image_url, vote } = shoe;
 
+  console.log("Updating shoe in DB:", { id, name, brand, model, first_use, races_used, image_url, vote });
+
   const query = `
     UPDATE running_shoes
     SET name = ?, brand = ?, model = ?, first_use = ?, races_used = ?, image_url = ?, vote = ?

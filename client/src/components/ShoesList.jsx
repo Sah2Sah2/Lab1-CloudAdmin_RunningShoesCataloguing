@@ -44,9 +44,13 @@ function ShoeCard({ shoe, onDelete, onEdit }) {
     }
   }
 
-  function handleSave(updatedShoe) {
-    onEdit(shoe.id, updatedShoe);
-    setIsEditing(false);
+  async function handleSave(updatedShoe) {
+    try {
+      await onEdit(shoe.id, updatedShoe);
+      setIsEditing(false);
+    } catch (error) {
+      alert("Failed to save changes. Please try again.");
+    }
   }
 
   return (
@@ -62,13 +66,14 @@ function ShoeCard({ shoe, onDelete, onEdit }) {
             className="toggle-btn"
             onClick={() => setIsExpanded(!isExpanded)}
             aria-expanded={isExpanded}
+            disabled={isEditing}
           >
             {isExpanded ? "Hide Details ▲" : "Show Details ▼"}
           </button>
           <button
             className="delete-btn"
             onClick={handleDelete}
-            disabled={isDeleting}
+            disabled={isDeleting || isEditing}
           >
             {isDeleting ? "Deleting..." : "Delete"}
           </button>
@@ -90,10 +95,18 @@ function ShoeCard({ shoe, onDelete, onEdit }) {
             <strong>Vote:</strong> {shoe.vote}/10
           </p>
           {shoe.image_url && (
-            <img src={shoe.image_url} alt={shoe.name} className="shoe-image" />
+            <img
+              src={shoe.image_url}
+              alt={shoe.name || "Running shoe image"}
+              className="shoe-image"
+            />
           )}
 
-          <button className="edit-btn" onClick={() => setIsEditing(true)}>
+          <button
+            className="edit-btn"
+            onClick={() => setIsEditing(true)}
+            disabled={isDeleting}
+          >
             ✏️ Edit
           </button>
 

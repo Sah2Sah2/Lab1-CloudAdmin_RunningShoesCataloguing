@@ -86,32 +86,38 @@ export default function App() {
   };
 
   const editShoe = async (id, updatedShoe) => {
-    try {
-      if (!updatedShoe.name || !updatedShoe.brand) {
-        throw new Error("Name and brand are required");
-      }
-
-      const response = await fetch(`${API_URL}/api/shoes/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedShoe),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(`Error updating shoe: ${JSON.stringify(errorData)}`);
-      }
-
-      const updated = await response.json();
-
-      setShoes((prevShoes) =>
-        prevShoes.map((shoe) => (shoe.id === id ? updated : shoe))
-      );
-    } catch (error) {
-      console.error("Failed to update shoe:", error);
-      alert("Failed to update shoe. Please check the console.");
+  console.log("Sending update for shoe", id, updatedShoe); // Debugging
+  try {
+    if (!updatedShoe.name || !updatedShoe.brand) {
+      throw new Error("Name and brand are required");
     }
-  };
+
+    const response = await fetch(`${API_URL}/api/shoes/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedShoe),
+    });
+
+    if (!response.ok) {
+      let errorText = await response.text();
+      try {
+        const errorJson = JSON.parse(errorText);
+        throw new Error(`Error updating shoe: ${JSON.stringify(errorJson)}`);
+      } catch {
+        throw new Error(`Error updating shoe: ${errorText}`);
+      }
+    }
+
+    const updated = await response.json();
+
+    setShoes((prevShoes) =>
+      prevShoes.map((shoe) => (shoe.id === id ? updated : shoe))
+    );
+  } catch (error) {
+    console.error("Failed to update shoe:", error);
+    alert("Failed to update shoe. Please check the console.");
+  }
+};
 
   return (
     <div className="app-container">

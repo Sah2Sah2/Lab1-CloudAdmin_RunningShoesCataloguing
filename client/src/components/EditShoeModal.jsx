@@ -23,15 +23,39 @@ export default function EditShoeModal({ shoe, onClose, onSave }) {
     });
   }, [shoe]);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  // Helper to format date for input type="date"
+  function formatDateForInput(dateString) {
+    if (!dateString) return "";
+    return dateString.split("T")[0]; // Extract YYYY-MM-DD
   }
 
-  function handleSubmit(e) {
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    let newValue = value;
+
+    if (name === "races_used" || name === "vote") {
+      newValue = Number(value);
+      // Prevent NaN if empty
+      if (isNaN(newValue)) newValue = 0;
+    } else {
+      newValue = value || "";
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: newValue,
+    }));
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    onSave(formData);
-    onClose();
+    try {
+      await onSave(formData);
+      onClose();
+    } catch (err) {
+      alert("Failed to save shoe. Please try again.");
+    }
   }
 
   return (
@@ -71,7 +95,7 @@ export default function EditShoeModal({ shoe, onClose, onSave }) {
             <input
               type="date"
               name="first_use"
-              value={formData.first_use}
+              value={formatDateForInput(formData.first_use)}
               onChange={handleChange}
             />
           </label>
