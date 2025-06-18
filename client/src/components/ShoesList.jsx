@@ -8,20 +8,58 @@ function formatDate(dateString) {
   if (isNaN(date)) return "";
   return date.toLocaleDateString("sv-SE");
 }
-
 export default function ShoesList({ shoes, onDelete, onEdit }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
+
   if (!shoes.length) return <p>No running shoes added yet.</p>;
 
+  // Pagination
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const shoesToShow = shoes.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(shoes.length / pageSize);
+
   return (
-    <div className="shoe-list">
-      {shoes.map((shoe) => (
-        <ShoeCard
-          key={shoe.id}
-          shoe={shoe}
-          onDelete={onDelete}
-          onEdit={onEdit}
-        />
-      ))}
+    <div>
+      <div className="shoe-list">
+        {shoesToShow.map((shoe) => (
+          <ShoeCard
+            key={shoe.id}
+            shoe={shoe}
+            onDelete={onDelete}
+            onEdit={onEdit}
+          />
+        ))}
+      </div>
+
+      {/* Pagination controls */}
+      {totalPages > 1 && (
+        <div className="pagination">
+    <button
+      onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+      disabled={currentPage === 1}
+      aria-label="Previous page"
+      className="pagination-btn"
+    >
+      &lt;  {/*  <  */}
+    </button>
+
+    <span>
+      Page {currentPage} of {totalPages}
+    </span>
+
+    <button
+      onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+      disabled={currentPage === totalPages}
+      aria-label="Next page"
+      className="pagination-btn"
+    >
+      &gt;  {/* > */}
+    </button>
+  </div>
+      )}
     </div>
   );
 }

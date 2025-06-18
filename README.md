@@ -294,7 +294,7 @@ curl -X DELETE http://localhost:5000/api/shoes/3
 
 ### To stop all running containers:
 
-- Press `Ctrl + C` in the terminal where `docker-compose up` is running.
+- Press `Ctrl + C` in the terminal where `docker-compose up` is running;
 - Or, in a new terminal, run:
 
 ```bash
