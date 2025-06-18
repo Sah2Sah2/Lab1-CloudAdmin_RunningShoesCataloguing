@@ -2,6 +2,14 @@
 HOME PAGE CSS 
 -----------------*/
 
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2 {
+  font-family: 'Raleway', sans-serif;
+}
+
 .homepage-container {
   max-width: 600px;
   margin: 3rem auto;
@@ -10,8 +18,8 @@ HOME PAGE CSS
   padding: 0;
   border-radius: 0;
   box-shadow: none;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #444;
+  font-family: 'Poppins', sans-serif;
+  color: --color-bg-dark;
 }
 
 .homepage-container h2 {
@@ -33,7 +41,6 @@ HOME PAGE CSS
   border-radius: 10px;
   padding: 0.6rem 1.5rem;
   font-size: 1.1rem;
-  color: #333;
   cursor: pointer;
   box-shadow: none;
   transition: background-color 0.3s ease;
@@ -41,8 +48,16 @@ HOME PAGE CSS
   display: flex;
   align-items: center;
   justify-content: center;
+  color:  black; /* #7489b0 maybe? need to check options */
 }
 
 .homepage-buttons button:hover {
   background-color: #a1c3ce;
+}
+
+.tagline {
+  color: whitesmoke;
+  margin-top: 3rem; 
+  margin-bottom: 2rem;
+  font-size: 1rem;
 }

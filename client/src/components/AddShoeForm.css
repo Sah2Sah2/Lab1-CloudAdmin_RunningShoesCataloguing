@@ -2,6 +2,10 @@
 ADD SHOES FORM CSS 
 -----------------*/
 
+.app-container {
+  text-align: left;
+}
+
 .add-shoe-form {
   max-width: 500px;
   margin: 2rem auto;

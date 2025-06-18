@@ -14,7 +14,8 @@ GLOBAL CSS
   --color-text-dark: #eaeaea;
   --color-text-light: #3a3a3a;
 
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
+
   line-height: 1.6;
   font-weight: 400;
   color-scheme: light dark;
@@ -33,8 +34,11 @@ GLOBAL CSS
 }
 
 body {
-
-  background-color: #f2e6dc !important;
+ background: linear-gradient(135deg, 
+  #f7c6c7 0%, 
+  #a7c7e7 30%, 
+  #f7e9a0 60%, 
+  #a6d8b8 90%);
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -43,11 +47,11 @@ body {
   min-width: 320px;
   min-height: 100vh;
   padding: 2rem;
-  background: inherit;
   color: inherit;
 }
 
 h1 {
+  font-family: 'Raleway', sans-serif;
   font-size: 3.2rem;
   line-height: 1.1;
   margin-bottom: 1rem;
@@ -55,7 +59,7 @@ h1 {
   text-align: center;
   letter-spacing: 0.02em;
   user-select: none;
-  color: var(--color-pink);
+  color: var(--color-yellow);
 }
 
 a {
@@ -67,7 +71,6 @@ a {
 
 a:hover,
 a:focus-visible {
-  /* Pastel green */
   color: var(--color-green);
   outline: none;
   text-decoration: underline;
@@ -105,14 +108,20 @@ button:focus-visible {
 }
 
 .app-container {
-  max-width: 640px;
-  width: 100%;
-  background-color: rgba(58, 58, 79, 0.75);
-  padding: 2rem 2.5rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2rem;
+  border-radius: 20px;
+
+  background: rgba(135, 89, 128, 0.500);
   backdrop-filter: blur(12px);
-  color: var(--color-text-dark);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  text-align: center;
 }
 
 @media (prefers-color-scheme: light) {
