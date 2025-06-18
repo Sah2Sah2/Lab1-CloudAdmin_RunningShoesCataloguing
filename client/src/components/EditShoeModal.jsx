@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./EditShoeModal.css";
 
 export default function EditShoeModal({ shoe, onClose, onSave }) {
   const [formData, setFormData] = useState({
