@@ -9,7 +9,21 @@
 ![Docker](https://img.shields.io/badge/Container-Docker-2496ED?logo=docker)
 ![Docker Compose](https://img.shields.io/badge/Orchestration-Docker--Compose-2496ED?logo=docker)
 
-This web application allows users to add and view a list of running shoes, including details like brand, model, and distance. It consists of a React (React.js + Vite) frontend for interacting with the app, a Node.js backend API for handling requests, and a MySQL database for storing the data. All parts run in separate Docker containers. 
+This web application allows users to add and view a list of running shoes, including details like brand, model, and first usage. It consists of a React (React.js + Vite) frontend for interacting with the app, a Node.js backend API for handling requests, and a MySQL database for storing the data. All parts run in separate Docker containers. 
+
+---
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [File structure overview](#file-structure-overview)
+- [Setup Instructions](#setup-instructions)
+- [Docker Setup](#docker-setup)
+- [Example `.env` file](#example-env-file)
+- [Run all containers](#run-all-containers)
+- [API Endpoints](#api-endpoints)
+- [Usage](#usage)
+- [Technical Choices](#technical-choices)
 
 ---
 
@@ -32,15 +46,17 @@ Before you begin, make sure you have the following installed and properly config
 ├── public/                       # Static assets (images, favicon, etc.)
 ├── src/                          # React source files
 │   ├── components/   
-      ├── AddShoesForm.css        
-      ├── AddShoeForm.jsx
-      ├── HomePage.css
-      ├── HomePage.jsx
-      ├── ShoesList.css
-      └── ShoeList.jsx
-    ├── App.css  
-    ├── App.jsx                   # Main React component
-    ├── index.css
+│     ├── AddShoeForm.css        
+│     ├── AddShoeForm.jsx
+│     ├── EditShoeModal.css
+│     ├── EditShoeModal.jsx
+│     ├── HomePage.css
+│     ├── HomePage.jsx
+│     ├── ShoesList.css
+│     └── ShoesList.jsx
+│   ├── App.css  
+│   ├── App.jsx                   # Main React component
+│   ├── index.css
 │   └── main.jsx                  # React entry point
 ├── .env                          # Environment variables (not committed)
 ├── .gitignore                    # Git ignore rules
@@ -54,14 +70,14 @@ Before you begin, make sure you have the following installed and properly config
 /server
 │
 ├── controllers/                  # Controller logic 
-    └── shoesController.js
+│    └── shoesController.js
 ├── db/
-    └── connection.js
+│    └── connection.js
 ├── models/                       # Database models    
-    └── shoesModel.js
+│    └── shoesModel.js
 ├── node_modules/                 # Installed backend dependencies
 ├── routes/                       # API route handlers
-    └── shoes.js
+│    └── shoes.js
 ├── Dockerfile                    # Dockerfile for backend container       
 ├── index.js                      # Main Express server file    
 ├── package-lock.json             # Exact dependency tree (auto-generated)         
@@ -80,7 +96,7 @@ Before you begin, make sure you have the following installed and properly config
 
 ### 1. Create project folders
 
-Create the main folders for the client, server, and database initialization:
+Create the main folders for the client and server:
 
 ```bash
 mkdir client server db
@@ -220,10 +236,19 @@ MYSQL_PASSWORD=dbpassword
 # Server environment variables
 DB_HOST=mysql-db
 DB_USER=user
-DB_PASSWORD=password
+DB_PASSWORD=dbpassword
 DB_NAME=dbname
 ```
 > ⚠️ **Note:** Replace these values with your own credentials. Do **not** commit your actual `.env` file to the repository.
+
+## Example `.env` file in /client
+```env
+# Frontend environment variables (must start with VITE_)
+# URL of backend API server
+VITE_API_URL=http://localhost:5000
+```
+> ⚠️ **Note:** Vite only exposes environment variables prefixed with `VITE_`. 
+Do not include sensitive data in the frontend `.env`.
 
 ### 10. Run all containers
 To run the entire application (frontend, backend, and MySQL database) in Docker containers with proper networking, follow these steps:
@@ -247,27 +272,39 @@ GET
 ```bash
 curl http://localhost:5000/api/shoes
 ```
+
 POST 
 ```bash
 curl -X POST http://localhost:5000/api/shoes \
   -H "Content-Type: application/json" \
-  -d '{ "key1": "value1", "key2": "value2" }'
+  -d '{ "name": "Saucony Triumph 22", "brand": "Saucony", "model": "Triumph 22"}'
 ```
 
 UPDATE by ID
 ```bash
-curl -X PUT http://localhost:5000/api/shoes/{id} \
+curl -X PUT http://localhost:5000/api/shoes/3 \
   -H "Content-Type: application/json" \
-  -d '{ "key1": "newValue1", "key2": "newValue2" }'
+  -d '{ "first_use": "2025-02-18", "races_used": 2 }'
 ```
 
 DELETE by ID 
 ```bash
-curl -X DELETE http://localhost:5000/api/shoes/{id}
+curl -X DELETE http://localhost:5000/api/shoes/3
 ```
 
-> ⚠️ **Note:** Running the backend server locally without Docker will result in a connection error because the hostname `mysql-db` is only resolvable inside the Docker network.
-> If you want to run the backend locally, replace the hostname `mysql-db` in your environment variables with `localhost` or the appropriate address of your MySQL server.
+### To stop all running containers:
+
+- Press `Ctrl + C` in the terminal where `docker-compose up` is running.
+- Or, in a new terminal, run:
+
+```bash
+docker-compose down
+```
+This will stop and remove the containers, but keep your volumes/data intact.
+
+> ⚠️ **Note:** Running the backend server locally without Docker will result in a connection error because the hostname `mysql-db` is only resolvable inside the Docker network;
+> If you want to run the backend locally, replace the hostname `mysql-db` in your environment variables with `localhost` or the appropriate address of your MySQL server;
+> When running backend outside Docker, change `DB_HOST` to `localhost` in `.env`.
 
 - React app will be available at: http://localhost:3000
 - Backend API will run on: http://localhost:5000
