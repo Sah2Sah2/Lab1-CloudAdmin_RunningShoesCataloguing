@@ -11,7 +11,7 @@ exports.getAllShoes = (req, res) => {
   });
 };
 
-// ADD shoes
+// ADD shoe 
 exports.addShoe = (req, res) => {
   const shoe = req.body;
 
@@ -29,22 +29,21 @@ exports.addShoe = (req, res) => {
   });
 };
 
-// UPDATE shoe by id
+// UPDATE shoe 
 exports.updateShoe = (req, res) => {
   console.log('INSIDE UPDATE ROUTE');
-  console.log('req.params:', req.params); 
+  console.log('req.params:', req.params);
   console.log('req.body:', req.body);
 
-  const { id } = req.params;              // Extract id from URL params
-  const updatedShoe = req.body;           // Extract body data
+  const { id } = req.params;
+  const updatedShoe = req.body;
 
   if (!id) {
     return res.status(400).json({ error: 'Missing shoe ID in URL' });
   }
 
-  const { name, brand, model } = updatedShoe;
-  if (!name || !brand || !model) {
-    return res.status(400).json({ error: 'Name, brand and model are required' });
+  if (updatedShoe.first_use) {
+    updatedShoe.first_use = updatedShoe.first_use.substring(0, 10);
   }
 
   shoesModel.updateShoe(id, updatedShoe, (err, result) => {
@@ -59,9 +58,9 @@ exports.updateShoe = (req, res) => {
 
     res.json({ id: +id, ...updatedShoe });
   });
-}; 
+};
 
-// DELETE shoe by id
+// DELETE shoe
 exports.deleteShoe = (req, res) => {
   const { id } = req.params;
 
@@ -77,5 +76,4 @@ exports.deleteShoe = (req, res) => {
     res.json({ message: 'Shoe deleted', id: +id });
   });
 };
-
 

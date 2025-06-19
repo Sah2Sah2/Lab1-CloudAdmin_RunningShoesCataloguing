@@ -26,23 +26,44 @@ exports.addShoe = (shoe, callback) => {
 
 // Update shoe by id
 exports.updateShoe = (id, updatedShoe, callback) => {
-  const { name, brand, model, first_use, races_used, image_url, vote } = updatedShoe;
+  const fields = [];
+  const values = [];
 
-  const query = `
-    UPDATE running_shoes
-    SET name = ?, brand = ?, model = ?, first_use = ?, races_used = ?, image_url = ?, vote = ?
-    WHERE id = ?`;
+  if (updatedShoe.name !== undefined) {
+    fields.push('name = ?');
+    values.push(updatedShoe.name);
+  }
+  if (updatedShoe.brand !== undefined) {
+    fields.push('brand = ?');
+    values.push(updatedShoe.brand);
+  }
+  if (updatedShoe.model !== undefined) {
+    fields.push('model = ?');
+    values.push(updatedShoe.model);
+  }
+  if (updatedShoe.first_use !== undefined) {
+    fields.push('first_use = ?');
+    values.push(updatedShoe.first_use);
+  }
+  if (updatedShoe.races_used !== undefined) {
+    fields.push('races_used = ?');
+    values.push(updatedShoe.races_used);
+  }
+  if (updatedShoe.image_url !== undefined) {
+    fields.push('image_url = ?');
+    values.push(updatedShoe.image_url);
+  }
+  if (updatedShoe.vote !== undefined) {
+    fields.push('vote = ?');
+    values.push(updatedShoe.vote);
+  }
 
-  const values = [
-    name,
-    brand,
-    model,
-    first_use || null,
-    races_used || null,
-    image_url || null,
-    vote || null,
-    id
-  ];
+  if (fields.length === 0) {
+    return callback(new Error('No fields to update'));
+  }
+
+  const query = `UPDATE running_shoes SET ${fields.join(', ')} WHERE id = ?`;
+  values.push(id);
 
   db.query(query, values, callback);
 };
