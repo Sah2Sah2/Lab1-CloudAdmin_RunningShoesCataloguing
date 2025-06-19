@@ -25,16 +25,14 @@ const values = [
 };
 
 // Update shoe by id
-exports.updateShoe = (id, shoe, callback) => {
-  const { name, brand, model, first_use, races_used, image_url, vote } = shoe;
-
-  console.log("Updating shoe in DB:", { id, name, brand, model, first_use, races_used, image_url, vote });
+exports.updateShoe = (id, updatedShoe, callback) => {
+  const { name, brand, model, first_use, races_used, image_url, vote } = updatedShoe;
 
   const query = `
-    UPDATE running_shoes
+    UPDATE running_shoes 
     SET name = ?, brand = ?, model = ?, first_use = ?, races_used = ?, image_url = ?, vote = ?
-    WHERE id = ?
-  `;
+    WHERE id = ?`;
+
   const values = [
     name,
     brand,
@@ -43,7 +41,7 @@ exports.updateShoe = (id, shoe, callback) => {
     races_used || null,
     image_url || null,
     vote || null,
-    id,
+    id
   ];
 
   db.query(query, values, callback);

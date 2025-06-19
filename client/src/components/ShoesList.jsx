@@ -8,6 +8,7 @@ function formatDate(dateString) {
   if (isNaN(date)) return "";
   return date.toLocaleDateString("sv-SE");
 }
+
 export default function ShoesList({ shoes, onDelete, onEdit }) {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
@@ -37,28 +38,28 @@ export default function ShoesList({ shoes, onDelete, onEdit }) {
       {/* Pagination controls */}
       {totalPages > 1 && (
         <div className="pagination">
-    <button
-      onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-      disabled={currentPage === 1}
-      aria-label="Previous page"
-      className="pagination-btn"
-    >
-      &lt;  {/*  <  */}
-    </button>
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            disabled={currentPage === 1}
+            aria-label="Previous page"
+            className="pagination-btn"
+          >
+            &lt; {/* < */}
+          </button>
 
-    <span>
-      Page {currentPage} of {totalPages}
-    </span>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
 
-    <button
-      onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-      disabled={currentPage === totalPages}
-      aria-label="Next page"
-      className="pagination-btn"
-    >
-      &gt;  {/* > */}
-    </button>
-  </div>
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            aria-label="Next page"
+            className="pagination-btn"
+          >
+            &gt; {/* > */}
+          </button>
+        </div>
       )}
     </div>
   );
@@ -82,9 +83,9 @@ function ShoeCard({ shoe, onDelete, onEdit }) {
     }
   }
 
-  async function handleSave(updatedShoe) {
+  async function handleSave(updatedData) {
     try {
-      await onEdit(shoe.id, updatedShoe);
+      await onEdit(shoe.id, updatedData);
       setIsEditing(false);
     } catch (error) {
       alert("Failed to save changes. Please try again.");
@@ -152,7 +153,7 @@ function ShoeCard({ shoe, onDelete, onEdit }) {
             <EditShoeModal
               shoe={shoe}
               onClose={() => setIsEditing(false)}
-              onSave={handleSave}
+              onSave={(updatedData) => handleSave(updatedData)}
             />
           )}
         </div>

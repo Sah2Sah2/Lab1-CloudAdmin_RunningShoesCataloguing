@@ -34,31 +34,29 @@ exports.updateShoe = (req, res) => {
   const { id } = req.params;
   const updatedShoe = req.body;
 
-  console.log("Update request params:", id);
-  console.log("Update request body:", updatedShoe);
+  if (!id) {
+    return res.status(400).json({ error: 'Missing shoe ID in URL' });
+  }
+
+  console.log("Updating shoe with ID:", id, "and data:", updatedShoe);
 
   if (!updatedShoe.name || !updatedShoe.brand || !updatedShoe.model) {
-    console.log("Validation failed: missing fields");
     return res.status(400).json({ error: 'Name, brand and model are required' });
   }
 
   shoesModel.updateShoe(id, updatedShoe, (err, result) => {
     if (err) {
-      console.error('Database error on update:', err);
+      console.error('Error updating shoe:', err);
       return res.status(500).json({ error: 'Failed to update shoe' });
     }
 
-    console.log("Database update result:", result);
-
     if (!result || result.affectedRows === 0) {
-      console.log("No rows updated, shoe not found or data identical");
-      return res.status(404).json({ error: 'Shoe not found or no changes made' });
+      return res.status(404).json({ error: 'Shoe not found' });
     }
 
     res.json({ id: +id, ...updatedShoe });
   });
 };
-
 
 // DELETE shoe by id
 exports.deleteShoe = (req, res) => {

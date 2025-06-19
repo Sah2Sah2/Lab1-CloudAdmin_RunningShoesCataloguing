@@ -9,13 +9,15 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const shoesRoutes = require('./routes/shoes'); 
+const shoesRoutes = require('./routes/shoes');
 
+// Logging middleware for all /api/shoes requests
 app.use('/api/shoes', (req, res, next) => {
   console.log(`Received request at /api/shoes${req.url} with method ${req.method}`);
   next();
 });
 
+// Attach shoes router to /api/shoes
 app.use('/api/shoes', shoesRoutes);
 
 app.get('/api/shoes/inline', (req, res) => {

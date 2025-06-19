@@ -85,13 +85,17 @@ export default function App() {
     }
   };
 
-  const editShoe = async (id, updatedShoe) => {
-  console.log("Sending update for shoe", id, updatedShoe); // Debugging
-  try {
-    if (!updatedShoe.name || !updatedShoe.brand) {
-      throw new Error("Name and brand are required");
-    }
+const editShoe = async (id, updatedShoe) => {
+  console.log("Updating shoe with id:", id);
+  if (!id) {
+    alert("No shoe ID provided for update.");
+    return;
+  }
 
+  try {
+    if (!updatedShoe.name || !updatedShoe.brand || !updatedShoe.model) {
+  throw new Error("Name, brand, and model are required");
+}
     const response = await fetch(`${API_URL}/api/shoes/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -99,7 +103,7 @@ export default function App() {
     });
 
     if (!response.ok) {
-      let errorText = await response.text();
+      const errorText = await response.text();
       try {
         const errorJson = JSON.parse(errorText);
         throw new Error(`Error updating shoe: ${JSON.stringify(errorJson)}`);
