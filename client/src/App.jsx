@@ -115,8 +115,9 @@ const editShoe = async (id, updatedShoe) => {
     const updated = await response.json();
 
     setShoes((prevShoes) =>
-      prevShoes.map((shoe) => (shoe.id === id ? updated : shoe))
+      prevShoes.map((shoe) => (String(shoe.id) === String(id) ? updated : shoe))
     );
+    console.log("Updated shoes list:", updatedShoes);
   } catch (error) {
     console.error("Failed to update shoe:", error);
     alert("Failed to update shoe. Please check the console.");
