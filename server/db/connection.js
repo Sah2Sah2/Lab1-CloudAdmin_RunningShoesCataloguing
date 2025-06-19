@@ -29,6 +29,28 @@ function connectWithRetry() {
           console.log('Database:', results[0]['DATABASE()']);
         }
       });
+
+      // 👇 Ensure the table exists
+      const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS running_shoes (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(255) NOT NULL,
+          brand VARCHAR(255),
+          model VARCHAR(255),
+          first_use DATE,
+          races_used INT,
+          image_url TEXT,
+          vote INT
+        );
+      `;
+
+      connection.query(createTableQuery, (err) => {
+        if (err) {
+          console.error('Error creating running_shoes table:', err);
+        } else {
+          console.log('Table "running_shoes" is ready.');
+        }
+      });
     }
   });
 
