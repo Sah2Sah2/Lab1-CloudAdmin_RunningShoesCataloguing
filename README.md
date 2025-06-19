@@ -18,6 +18,7 @@ This web application allows users to add and view a list of running shoes, inclu
 - [Prerequisites](#prerequisites)
 - [File structure overview](#file-structure-overview)
 - [Setup Instructions](#setup-instructions)
+- [SQL Database Initialization](#sql-database-initialization)
 - [Docker Setup](#docker-setup)
 - [Example `.env` file](#example-env-file)
 - [Run all containers](#run-all-containers)
@@ -72,7 +73,8 @@ Before you begin, make sure you have the following installed and properly config
 ├── controllers/                  # Controller logic 
 │    └── shoesController.js
 ├── db/
-│    └── connection.js
+│    ├── connection.js
+│    └── init.sql
 ├── models/                       # Database models    
 │    └── shoesModel.js
 ├── node_modules/                 # Installed backend dependencies
@@ -142,7 +144,23 @@ npm install express cors dotenv mysql2
 ### 6. Create an Express server
 Create an index.js file inside the server folder and set up your basic server and database connection.
 
-### 7. Run the backend server locally
+### 7. Initialize the MySQL Database
+
+The MySQL database schema and initial data are automatically initialized using the SQL script located at:
+
+`/server/db/init.sql`
+
+This script is mounted into the MySQL Docker container via the `docker-compose.yml` volume configuration:
+
+```yaml
+volumes:
+  - ./server/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+```
+When the MySQL container starts for the first time, it runs this script to set up tables and seed data.
+
+> ⚠️ **Note:** If you restart the MySQL container and the database already exists, the init script will not re-run. To reinitialize, you need to delete the Docker volume db_data or start with a fresh volume.
+
+### 8. Run the backend server locally
 
 Start the backend server by running:
 
@@ -152,7 +170,7 @@ node index.js
 
 ## Docker Setup
 
-### 8. Create Dockerfiles for client and server
+### 9. Create Dockerfiles for client and server
 
 Create a `Dockerfile` inside the `/server` folder:
 
@@ -181,7 +199,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-### 9. Create a `docker-compose.yml` file in the project root
+### 10. Create a `docker-compose.yml` file in the project root
 ```yaml
 services:
   db:
@@ -197,6 +215,12 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
+      - ./server/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   server:
     build: ./server
@@ -210,7 +234,8 @@ services:
       DB_PASSWORD: ${MYSQL_PASSWORD}
       DB_NAME: ${MYSQL_DATABASE}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   client:
     build: ./client
@@ -250,7 +275,7 @@ VITE_API_URL=http://localhost:5000
 > ⚠️ **Note:** Vite only exposes environment variables prefixed with `VITE_`. 
 Do not include sensitive data in the frontend `.env`.
 
-### 10. Run all containers
+### 11. Run all containers
 To run the entire application (frontend, backend, and MySQL database) in Docker containers with proper networking, follow these steps:
 
 1. Ensure your `.env` file contains the correct database credentials matching those in `docker-compose.yml`.
@@ -312,12 +337,12 @@ This will stop and remove the containers, but keep your volumes/data intact.
 
 ## API Endpoints
 
-| Method | Endpoint          | Description                   | Request Body Example                                            |
-|--------|-------------------|-------------------------------|-----------------------------------------------------------------|
-| GET    | `/api/shoes`      | Get list of all shoes         | N/A                                                             |
-| POST   | `/api/shoes`      | Add a new shoe                | `{ "brand": "Nike", "model": "Air Max", "distance": 100 }`      |
-| PUT    | `/api/shoes/{id}` | Update shoe info by ID        | `{ "brand": "Adidas", "model": "Ultraboost", "distance": 150 }` |
-| DELETE | `/api/shoes/{id}` | Delete shoe by ID             | N/A                                                             |
+| Method | Endpoint          | Description               | Request Body Example                                             | Notes                         |
+|--------|-------------------|---------------------------|-----------------------------------------------------------------|-------------------------------|
+| GET    | `/api/shoes`      | Get list of all shoes     | N/A                                                             |                               |
+| POST   | `/api/shoes`      | Add a new shoe            | `{ "name": "Saucony Pink", "brand": "Saucony", "model": "Triumph 22" }` | `name`, `brand`, `model` **required** |
+| PUT    | `/api/shoes/{id}` | Update shoe info by ID    | `{ "races_used": 2 }`                                           | Partial update allowed         |
+| DELETE | `/api/shoes/{id}` | Delete shoe by ID         | N/A                                                           |                               |
 
 ## Usage 
 
