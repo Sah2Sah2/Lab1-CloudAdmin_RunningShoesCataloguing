@@ -74,7 +74,7 @@ Before you begin, make sure you have the following installed and properly config
 │    └── shoesController.js
 ├── db/
 │    ├── connection.js
-│    └── init.sql
+│    └── Dump20250620.sql         # Db initialization and dummy data
 ├── models/                       # Database models    
 │    └── shoesModel.js
 ├── node_modules/                 # Installed backend dependencies
@@ -146,19 +146,25 @@ Create an index.js file inside the server folder and set up your basic server an
 
 ### 7. Initialize the MySQL Database
 
-The MySQL database schema and initial data are automatically initialized using the SQL script located at:
+The MySQL database schema and seed data are initialized using a single SQL dump file located in the `/server/db/` folder:
 
-`/server/db/init.sql`
+`Dump20250620.sql`: contains both the database creation, schema, and sample data inserts.
 
-This script is mounted into the MySQL Docker container via the `docker-compose.yml` volume configuration:
+This script is mounted into the MySQL Docker container and executed on the first container startup using the following volume configuration in `docker-compose.yml`:
 
 ```yaml
 volumes:
-  - ./server/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+  - ./server/db/Dump20250620.sql:/docker-entrypoint-initdb.d/init.sql:ro
 ```
-When the MySQL container starts for the first time, it runs this script to set up tables and seed data.
+When the MySQL container starts for the first time, it runs this script to create the database, set up tables, and seed sample data.
 
-> ⚠️ **Note:** If you restart the MySQL container and the database already exists, the init script will not re-run. To reinitialize, you need to delete the Docker volume db_data or start with a fresh volume.
+> ⚠️ **Note:** IThe initialization script runs only once when the database is created initially. If you restart the MySQL container and the database already exists, the script will not re-run. To reinitialize the database, you need to delete the Docker volume db_data or start with a fresh volume by running: 
+
+```bash
+docker-compose down -v
+docker-compose up
+```
+This will remove the existing database volume and trigger the initialization scripts again.
 
 ### 8. Run the backend server locally
 

@@ -12,7 +12,7 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./server/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./server/db/Dump20250620.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
