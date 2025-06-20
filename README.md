@@ -1,5 +1,5 @@
 # Running shoes tracker 
-### with React + Vite, Docker, and MySql
+### React + Vite, Docker, and MySql
 
 ![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
 ![Vite](https://img.shields.io/badge/Bundler-Vite-646CFF?logo=vite)
@@ -221,7 +221,7 @@ services:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./server/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./server/db/Dump20250620.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -355,9 +355,9 @@ This will stop and remove the containers, but keep your volumes/data intact.
 After running the application (either locally or via Docker), open your web browser and navigate to: http://localhost:3000
 
 On the app, you can:
-- Add new running shoes by entering details like brand, model, and distance;
+- Add new running shoes by entering details like brand, model, first time usage etc.;
 - View the list of all running shoes you've added;
-- Track your running shoe mileage conveniently from the interface.
+- Track your running shoe conveniently from the interface.
 
 The frontend communicates with the backend API to save and fetch shoe data, ensuring your running shoes list is always up to date.
 
